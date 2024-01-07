@@ -6,23 +6,23 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/securecookie"
-	usefulgo "github.com/pthomison/go-useful"
+	"github.com/pthomison/utilkit"
 )
 
 func TestHelloWorld(t *testing.T) {
 	store, err := NewDdbStore("us-east-2", "store-test-table", securecookie.GenerateRandomKey(32))
-	usefulgo.CheckTest(err, t)
+	utilkit.CheckTest(err, t)
 
 	request := httptest.NewRequest("GET", "/", nil)
 	responseRecorder := httptest.NewRecorder()
 
 	sesh, err := store.New(request, "test-session")
-	usefulgo.CheckTest(err, t)
+	utilkit.CheckTest(err, t)
 
 	sesh.Values["hello"] = "world"
 
 	err = sesh.Save(request, responseRecorder)
-	usefulgo.CheckTest(err, t)
+	utilkit.CheckTest(err, t)
 
 	spew.Dump(responseRecorder.Header())
 
@@ -30,7 +30,7 @@ func TestHelloWorld(t *testing.T) {
 	secondRequest.Header.Add("Cookie", responseRecorder.Result().Header.Get("Set-Cookie"))
 
 	sesh, err = store.New(secondRequest, "test-session")
-	usefulgo.CheckTest(err, t)
+	utilkit.CheckTest(err, t)
 
 	spew.Dump(sesh.Values)
 

@@ -17,11 +17,11 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
-	usefulgo "github.com/pthomison/go-useful"
+	"github.com/pthomison/utilkit"
 )
 
 func NewDdbStore(region string, tableName string, keyPairs ...[]byte) (*DdbStore, error) {
-	config, err := usefulgo.NewConfig(usefulgo.NewConfigInput{
+	config, err := utilkit.NewConfig(utilkit.NewConfigInput{
 		Region: region,
 	})
 	if err != nil {
